@@ -1,0 +1,12 @@
+# CST result folders (same name as the .cst file, next to it)
+cst/*/
+*.lok
+
+# Python
+__pycache__/
+*.pyc
+
+# System
+Thumbs.db
+desktop.ini
+.DS_Store
