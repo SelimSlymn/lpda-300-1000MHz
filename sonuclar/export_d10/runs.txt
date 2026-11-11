@@ -1,4 +1,0 @@
-Guncel: d_el=10 gap=7,5 front=20 feed_back=-5
-3D_RunID_0:
-3D_RunID_1: a=15 d_el=10 feed_back=-5 front=20 gap=7,5 stub=138,8
-

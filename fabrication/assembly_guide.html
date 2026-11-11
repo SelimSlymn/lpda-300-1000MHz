@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LPDA 300–1000 MHz – Fabrication and assembly guide</title>
+<style>
+:root{--bg:#faf9f5;--card:#ffffff;--soft:#f1efe8;--tx:#1f1e1d;--tx2:#5f5e5a;--tx3:#888780;--bd:rgba(31,30,29,.14);--bd2:rgba(31,30,29,.28);--acc:#185FA5;--accbg:#E6F1FB;--warn:#854F0B;--warnbg:#FAEEDA;--ok:#3B6D11;--okbg:#EAF3DE}
+@media (prefers-color-scheme:dark){:root{--bg:#1f1e1d;--card:#2a2928;--soft:#323130;--tx:#ecebe6;--tx2:#b4b2a9;--tx3:#888780;--bd:rgba(236,235,230,.14);--bd2:rgba(236,235,230,.3);--acc:#85B7EB;--accbg:#0C447C;--warn:#FAC775;--warnbg:#412402;--ok:#C0DD97;--okbg:#173404}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:26px;font-weight:600;margin:0 0 4px}
+h2{font-size:20px;font-weight:600;margin:42px 0 12px;padding-top:8px;border-top:1px solid var(--bd)}
+h3{font-size:16px;font-weight:600;margin:22px 0 8px}
+p{margin:6px 0 10px}
+.sub{color:var(--tx2);margin:0 0 18px}
+.note{border:1px solid var(--bd);border-left:4px solid var(--warn);background:var(--warnbg);color:var(--tx);padding:12px 16px;border-radius:0;margin:14px 0}
+.note b{color:var(--warn)}
+.ok{border-left-color:var(--ok);background:var(--okbg)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+#view{position:relative;height:560px;border:1px solid var(--bd);border-radius:12px;overflow:hidden;background:var(--card);touch-action:none}
+@media (max-width:600px){#view{height:420px}}
+.panel{border:1px solid var(--bd);border-radius:12px;background:var(--card);padding:14px 16px;max-height:560px;overflow:auto}
+.panel h4{margin:0 0 6px;font-size:16px;font-weight:600}
+.kv{display:grid;grid-template-columns:118px minmax(0,1fr);gap:4px 10px;font-size:13.5px}
+.kv div:nth-child(odd){color:var(--tx2)}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
+button,select{font:inherit;font-size:13.5px;color:var(--tx);background:var(--card);border:1px solid var(--bd2);border-radius:8px;padding:5px 11px;cursor:pointer}
+button.on{background:var(--accbg);color:var(--acc);border-color:var(--acc)}
+label.sl{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--tx2)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--tx2);margin:8px 0 0}
+.sw{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px;border:1px solid rgba(0,0,0,.15)}
+.hint{font-size:12.5px;color:var(--tx3);margin:6px 0 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0 14px}
+th,td{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--tx2);background:var(--soft)}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+ol.steps>li{margin:0 0 14px}
+ol.steps>li>b{display:block;margin-bottom:2px}
+ul{margin:4px 0 10px;padding-left:22px}
+code{font-family:ui-monospace,Consolas,monospace;font-size:13px;background:var(--soft);padding:1px 5px;border-radius:4px}
+svg text{fill:var(--tx);font-size:12px;font-family:inherit}
+svg .dim{fill:var(--tx2)}
+.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin:6px 0 0}
+.toc a{color:var(--acc);text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+<h1>LPDA 300–1000 MHz — fabrication and assembly guide</h1>
+<p class="sub">20 elements · Ø10 mm aluminium elements · 15×15×1.5 mm square-tube booms · 7.5 mm boom gap · RG-316 inside boom A (infinite balun) · axial M4 bolts on both booms</p>
+<div class="toc"><a href="#model">3D model</a><a href="#section">Cross-section</a><a href="#holes">Hole list</a><a href="#cut">Cut list</a><a href="#materials">Materials and tools</a><a href="#steps">Fabrication steps</a><a href="#checks">Checks and measurement</a><a href="#cst">CST model</a></div>
+
+<div class="note ok"><b>Verified in CST (11 Nov 2026):</b> 20 elements, Ø10 elements, gap 7.5 mm, shorting plate on the top face. S11 &lt; −10 dB across 300–1000 MHz (worst −10.1 dB at 957 MHz), VSWR ≤ 1.91, gain 9.0–9.5 dBi, front-to-back ratio 22–30 dB. The lengths in the cut list are final.</div>
+
+<h2 id="model">3D model</h2>
+<div class="bar" id="views"></div>
+<div class="bar">
+<label class="sl">Exploded view <input type="range" id="exp" min="0" max="100" value="0" style="width:140px"></label>
+<button id="tb">Make booms transparent</button>
+<button id="hm">Show holes</button>
+<select id="els" aria-label="Select element"><option value="">Select element…</option></select>
+</div>
+<div class="grid">
+<div><div id="view"></div>
+<div class="legend">
+<span><i class="sw" style="background:#9c9a92"></i>Aluminium boom</span>
+<span><i class="sw" style="background:#d3d1c7"></i>Ø10 element rod</span>
+<span><i class="sw" style="background:#7F77DD"></i>M4×25 element bolt</span>
+<span><i class="sw" style="background:#EF9F27"></i>M3×25 plate bolt</span>
+<span><i class="sw" style="background:#F1EFE8"></i>POM, nylon</span>
+<span><i class="sw" style="background:#D85A30"></i>RG-316</span>
+<span><i class="sw" style="background:#1D9E75"></i>Lug, centre conductor</span>
+</div>
+<div class="legend" id="hlegend" style="display:none">
+<span><i class="sw" style="background:#7F77DD"></i>Ø4.5 element bolt / spacer</span>
+<span><i class="sw" style="background:#EF9F27"></i>Ø3.2 plate bolt</span>
+<span><i class="sw" style="background:#E24B4A"></i>Ø3.5 coax exit</span>
+<span><i class="sw" style="background:#1D9E75"></i>Ø5.0/Ø6.0 rivet nut</span>
+</div>
+<p class="hint">Drag to rotate · wheel or two-finger pinch to zoom · right-click or two-finger drag to pan · click a part to see its dimensions on the right.</p>
+</div>
+<div class="panel" id="info"><h4>Click a part</h4><p style="color:var(--tx2);font-size:13.5px">Boom, element, bolt, screw, spacer, coax, lug or hole — the dimensions, material, hole and connection of the clicked part are shown here. In "Show holes" mode every hole can be clicked individually.</p></div>
+</div>
+
+<h2 id="section">Cross-section</h2>
+<p>This section is taken perpendicular to the boom axis at an element position (here an odd-numbered element). The method is the same on both booms: the rod end sits on the boom face, and an M4×25 bolt entering from the opposite face screws into the M4 thread in the rod end. On odd-numbered elements the A arm points up and the B arm down; on even-numbered elements the other way round. The RG-316 runs along the upper outer corner of boom A; the bolts pass through the centre, so they do not clash. Scale approximately 6 px = 1 mm.</p>
+<svg viewBox="0 0 680 340" width="100%" style="max-width:820px;display:block;border:1px solid var(--bd);border-radius:12px;background:var(--card)" role="img" aria-label="Cross-section of boom A and boom B">
+<g fill="none" stroke="#888780" stroke-width="1.2">
+<rect x="227.5" y="145" width="90" height="90"/><rect x="236.5" y="154" width="72" height="72" stroke-dasharray="3 3"/>
+<rect x="362.5" y="145" width="90" height="90"/><rect x="371.5" y="154" width="72" height="72" stroke-dasharray="3 3"/>
+</g>
+<rect x="242.5" y="235" width="60" height="75" fill="#d3d1c7" stroke="#5F5E5A" stroke-width="1"/>
+<path d="M242.5 310 l10 -6 l10 6 l10 -6 l10 6 l10 -6 l10 6" fill="none" stroke="#5F5E5A"/>
+<rect x="260.5" y="145" width="24" height="150" fill="#7F77DD" stroke="#3C3489" opacity=".9"/>
+<rect x="251.5" y="128" width="42" height="17" fill="#7F77DD" stroke="#3C3489"/>
+<rect x="377.5" y="70" width="60" height="75" fill="#d3d1c7" stroke="#5F5E5A"/>
+<path d="M377.5 70 l10 6 l10 -6 l10 6 l10 -6 l10 6 l10 -6" fill="none" stroke="#5F5E5A"/>
+<rect x="395.5" y="85" width="24" height="150" fill="#7F77DD" stroke="#3C3489" opacity=".9"/>
+<rect x="386.5" y="235" width="42" height="17" fill="#7F77DD" stroke="#3C3489"/>
+<circle cx="433" cy="164.5" r="7.5" fill="#D85A30" stroke="#712B13"/>
+<line x1="317.5" y1="128" x2="362.5" y2="128" stroke="#888780"/><line x1="317.5" y1="122" x2="317.5" y2="134" stroke="#888780"/><line x1="362.5" y1="122" x2="362.5" y2="134" stroke="#888780"/>
+<text x="340" y="118" text-anchor="middle" class="dim">7.5 gap</text>
+<line x1="362.5" y1="272" x2="452.5" y2="272" stroke="#888780"/><line x1="362.5" y1="266" x2="362.5" y2="278" stroke="#888780"/><line x1="452.5" y1="266" x2="452.5" y2="278" stroke="#888780"/>
+<text x="407.5" y="292" text-anchor="middle" class="dim">15 (wall 1.5)</text>
+<text x="407.5" y="30" text-anchor="middle" font-weight="600">Boom A (with coax)</text>
+<text x="272.5" y="30" text-anchor="middle" font-weight="600">Boom B</text>
+<g stroke="#888780" stroke-dasharray="3 3"><line x1="438" y1="100" x2="470" y2="100"/><line x1="440" y1="164" x2="470" y2="164"/><line x1="428" y1="244" x2="470" y2="244"/><line x1="420" y1="120" x2="470" y2="132"/></g>
+<text x="476" y="104">Ø10 rod, M4 thread in the end (Ø3.3×12)</text>
+<text x="476" y="136">M4 bolt enters the rod by 10 mm</text>
+<text x="476" y="168">RG-316 Ø2.5, upper outer corner</text>
+<text x="476" y="248">M4×25 + washer, hole Ø4.5 (both walls)</text>
+<g stroke="#888780" stroke-dasharray="3 3"><line x1="251" y1="136" x2="205" y2="136"/><line x1="260" y1="200" x2="205" y2="200"/><line x1="242" y1="280" x2="205" y2="280"/></g>
+<text x="200" y="140" text-anchor="end">M4×25 + washer, hole Ø4.5 (both walls)</text>
+<text x="200" y="204" text-anchor="end">Bolt enters the rod by 10 mm</text>
+<text x="200" y="284" text-anchor="end">Ø10 rod, cut length h, M4 thread in the end</text>
+<text x="340" y="328" text-anchor="middle" class="dim">View: from the front end of the boom towards the rear. Spacer bolts (horizontal, mid-height) are at other z positions.</text>
+</svg>
+
+<h2 id="holes">Hole list</h2>
+<p>All z dimensions are measured from the <b>rear end</b> of the boom (z = 0). To avoid accumulating errors, always mark each hole from z = 0, never from the previous hole. "Centre" means the middle of the face. Faces are defined with the booms side by side and the elements vertical: <i>top/bottom</i> are the faces the elements stick out of, <i>outer side</i> is the face that does not face the gap.</p>
+<div class="tw"><table>
+<tr><th>Code</th><th>Where</th><th>Diameter / thread</th><th>Qty</th><th>Position</th><th>Note</th></tr>
+<tr><td>D1</td><td>Boom A and boom B, top and bottom faces</td><td>Ø4.5</td><td class="n">2 booms × 20 × 2 walls</td><td>Element z positions, face centre</td><td>Clamp both booms side by side and mark them at the same z. Drill both walls of each boom in one pass, square, on a drill press</td></tr>
+<tr><td>D5</td><td>One end of every rod</td><td>Ø3.3 × 12–13 → M4 thread</td><td class="n">40</td><td>Rod axis</td><td>Centre on a lathe or with a drill guide block. Square the end face first</td></tr>
+<tr><td>D6</td><td>Both booms + POM, horizontal</td><td>Ø4.5</td><td class="n">6</td><td>z = 69.4 · 348.1 · 682.6 · 1051.0 · 1268.6 · 1353.6; mid-height</td><td>Drill all four walls in one pass with the POM between the booms</td></tr>
+<tr><td>D7</td><td>Boom A, top face</td><td>Ø3.5</td><td class="n">1</td><td>z = 1395, 4 mm outward from the axis</td><td>Coax exit. Deburr thoroughly</td></tr>
+<tr><td>D8</td><td>Boom A, top face</td><td>Ø5.0 (M3 rivet nut)</td><td class="n">1</td><td>z = 1401, centre</td><td>Shield lug</td></tr>
+<tr><td>D9</td><td>Boom B, top face</td><td>Ø5.0 (M3 rivet nut)</td><td class="n">1</td><td>z = 1398, centre</td><td>Centre-conductor lug</td></tr>
+<tr><td>D10</td><td>Booms A and B, top and bottom faces + plate</td><td>Ø3.2</td><td class="n">2 booms × 2 walls + 2 in the plate</td><td>z = 7.5, face centre; 22.5 mm between the plate holes</td><td>Shorting plate, M3×25 through-bolts + washer + nylon-insert nut</td></tr>
+<tr><td>D11</td><td>Boom B, outer side face</td><td>Ø6.0 (M4 rivet nut)</td><td class="n">2</td><td>z = 660 and 705, mid-height</td><td>Mounting plate. The middle spacer bolt (z 682.6) also passes through the plate</td></tr>
+</table></div>
+
+<h2 id="cut">Cut list</h2>
+<p>Two rods of equal length are cut for every element, one for A and one for B. <b>Cut length = h</b>; the rod sits on the boom face, so this equals the simulated arm length. Direction: on A the odd-numbered elements point up and the even ones down; on B the opposite. Cut tolerance ±0.5 mm; take extra care with the shortest elements.</p>
+<div class="tw"><table id="cutlist"><tr><th>#</th><th>z (mm)</th><th>Full L (mm)</th><th>Cut h (mm)</th><th>Qty</th><th>A direction</th><th>B direction</th><th>f res. (MHz)</th></tr></table></div>
+<p>Total rod ≈ 2 × 2289 = 4.58 m. With saw allowance, buy <b>5–6 m</b> of Ø10 solid aluminium rod. Booms: 2 × 1407.3 mm. Approximate total weight 1.6 kg, centre of gravity at z ≈ 720 mm.</p>
+
+<h2 id="materials">Materials and tools</h2>
+<div class="tw"><table>
+<tr><th>Part</th><th>Size</th><th>Qty</th><th>Note</th></tr>
+<tr><td>Square tube (6060/6063)</td><td>15×15×1.5, 1407.3 mm</td><td class="n">2</td><td>If anodized, sand the contact points. A 1 mm wall also works.</td></tr>
+<tr><td>Solid aluminium rod (preferably 6061/6082)</td><td>Ø10</td><td class="n">5–6 m</td><td>Not tube: an axial thread cannot be cut in a tube.</td></tr>
+<tr><td>Stainless bolt (DIN 912 or 933)</td><td>M4×25 + DIN 125 washer</td><td class="n">40 (+5 spare)</td><td>All elements on both booms</td></tr>
+<tr><td>Nylon bolt + nut + washer</td><td>M4×45 (1 × M4×60)</td><td class="n">6</td><td>Spacers. The long one is for spacer 3 and also passes through the mounting plate.</td></tr>
+<tr><td>POM (Delrin) spacer</td><td>7.5×15×25</td><td class="n">6</td><td>Machine down from 8 mm sheet to 7.5, or simulate gap = 8 in CST.</td></tr>
+<tr><td>Shorting plate (Al)</td><td>37.5×15×3</td><td class="n">1</td><td>2 × M3×25 + serrated washer + washer + nylon-insert nut</td></tr>
+<tr><td>M3 rivet nut + M3×6 screw</td><td>Ø5.0 hole</td><td class="n">2</td><td>Feed lugs</td></tr>
+<tr><td>M3 ring lug (solderable)</td><td>—</td><td class="n">2</td><td>Copper / tinned</td></tr>
+<tr><td>RG-316 coax</td><td>Ø2.5</td><td class="n">~1.8 m</td><td>1.4 m inside the boom + allowance at the rear</td></tr>
+<tr><td>SMA or N connector</td><td>for RG-316, crimp</td><td class="n">1</td><td>Rear end</td></tr>
+<tr><td>Mounting plate (POM/PVC)</td><td>75×60×10</td><td class="n">1</td><td>2 × M4 rivet nut (Ø6.0) + mast U-bolt</td></tr>
+<tr><td>Heat-shrink tubing, silicone</td><td>Ø3–6</td><td>—</td><td>Sealing the feed and connector</td></tr>
+</table></div>
+<p><b>Tools:</b> drill press and vice, V-block; drill bits Ø3.2, 3.3 (3–4 pcs), 3.5, 4.5, 5.0, 6.0, 10 (for the guide block); 3-piece M4 hand tap set and tap wrench; cutting oil; countersink / deburring tool; calipers, square, scriber, centre punch; band saw or fine-tooth hacksaw for aluminium; file, sandpaper; rivet-nut tool; soldering iron; multimeter; NanoVNA or VNA. If a lathe is available, have the 40 rod ends done there.</p>
+
+<h2 id="steps">Fabrication steps</h2>
+<ol class="steps">
+<li><b>Cut the booms.</b> Cut both tubes to 1407.3 mm. Ends square, deburred. Write "A" and "B" on the booms with a permanent marker and mark the rear end (z = 0).</li>
+<li><b>Cut and number the rods.</b> Following the cut list, cut two rods of length h for every element, 40 rods in total. Label them A01…A20, B01…B20 with tape.</li>
+<li><b>Square the rod ends.</b> File the end of each rod that will sit on the boom, then square it on sandpaper fixed to glass. The element rests on the boom face with this end; if the end is skewed, the element will be too.</li>
+<li><b>Tap an axial M4 thread in the rods (D5).</b>
+<ul><li>With a lathe: face the end, centre-drill, drill Ø3.3 to 13 mm, and tap by hand with the tap supported by the tailstock.</li>
+<li>Without a lathe, make a guide block: in a ~30 mm thick block, without moving it, drill Ø3.3 all the way through and then Ø10 to 22 mm depth from the same side. Hold the rod upright in the vice, slip the block over its end with the Ø10 side, and drill Ø3.3 through the guide hole 12–13 mm into the rod.</li>
+<li>Put the tap in the drill chuck and, with the drill switched off, start it by hand for 2–3 turns; then continue with the tap wrench, one turn forward and half a turn back. Use cutting oil. Run the taper, intermediate and bottoming taps in order.</li>
+<li>Check every rod by turning an M4×25 bolt fully in by hand.</li></ul></li>
+<li><b>Mark the element positions.</b> Clamp both booms side by side with their rear ends aligned. Fix the tape measure at z = 0 and draw all 20 positions across the top faces of both booms with a square in one go; centre-punch each line at the middle of the face. Take every measurement from z = 0, not from the previous hole.</li>
+<li><b>Drill the element holes (D1).</b> Lay each boom in the vice on the drill press and check with a square that the drill is perpendicular. At every mark drill Ø4.5 through the top and bottom walls in one pass. 20 holes in each boom. Deburr.</li>
+<li><b>Prepare the spacers.</b> Cut 6 POM blocks of 7.5×15×25 mm. Measure the thickness (gap) with calipers; it should be 7.5 ± 0.2 mm.</li>
+<li><b>Drill the spacer holes (D6).</b> Clamp the two booms with the POM blocks between them at the correct z positions. At every spacer position drill Ø4.5 at mid-height through all four walls and the POM in one pass.</li>
+<li><b>Front-end holes (D7–D9).</b> On the top face of boom A at z = 1395, 4 mm from the axis towards the outer edge, drill the Ø3.5 coax exit hole and deburr it carefully. Drill Ø5.0 holes at z = 1401 on the top face of boom A and at z = 1398 on the top face of boom B and set M3 rivet nuts.</li>
+<li><b>Shorting plate (D10).</b> Cut a 37.5×15×3 aluminium plate and drill Ø3.2 holes near both ends, 22.5 mm apart centre to centre. On each boom, 7.5 mm in from the rear end, drill Ø3.2 through both walls at the centre of the top face.</li>
+<li><b>Mounting plate (D11).</b> Drill Ø6.0 holes at z = 660 and 705 on the outer side face of boom B and set M4 rivet nuts. Drill Ø4.5 holes in the POM mounting plate at the same spacing and at z = 682.6 (spacer 3 bolt).</li>
+<li><b>Clean the contact surfaces.</b> On anodized tube, sand to bare metal around the element holes (where the rod end sits) and where the plate and lugs sit. Also polish the threaded end faces of the rods.</li>
+<li><b>Join the booms.</b> Insert the POM spacers, fit the nylon M4 bolts and tighten by hand. Measure the gap with calipers at several points. <b>Multimeter:</b> A to B must be open (∞ Ω).</li>
+<li><b>Pull the RG-316.</b> Push a thin wire in from the open rear end of boom A and out through the Ø3.5 hole at the front, tie the coax to it and pull it through. Leave ~3 cm at the front and ~30 cm at the rear. Lay the cable in the upper outer corner.</li>
+<li><b>Fit the elements.</b> Seat the threaded end of each rod over its hole: on A the odd-numbered elements on the top face and the even ones on the bottom face; on B the other way round. Pass an M4×25 bolt with washer from the opposite face and screw it into the rod. On boom A check that the coax stays in the corner before tightening. Hand-tight, do not overtighten. Check with a square that each element is perpendicular to the boom.</li>
+<li><b>Fit the shorting plate.</b> Place the plate on the top faces of both booms at the rear end. Pass the M3×25 bolts through serrated washer, plate and boom, and tighten from below with a washer and nylon-insert nut. <b>Multimeter:</b> A to B is now a short circuit. This is normal for an LPDA.</li>
+<li><b>Connect the feed.</b>
+<ul><li>Strip ~10 mm of the jacket from the coax coming out of the Ø3.5 hole. Twist the braid into a single lead and solder it to an M3 ring lug; fix the lug with an M3×6 screw to the rivet nut on boom A (z = 1401).</li>
+<li>Keep the PTFE insulation of the centre conductor up to 2–3 mm from the lug, solder its end to the second lug and fix the lug to the rivet nut on boom B (z = 1398).</li>
+<li>Keep the exposed conductor ends shorter than 10 mm. Solder does not wet aluminium; solder only to the lugs.</li>
+<li>Protect the joint from moisture with heat-shrink tubing and neutral-cure silicone.</li></ul></li>
+<li><b>Fit the connector.</b> Crimp an SMA or N connector onto the RG-316 at the rear end. <b>Multimeter:</b> you should see a short circuit between the centre pin and the body of the connector (centre conductor → boom B → plate → boom A → braid). This is correct.</li>
+<li><b>Fit the mounting plate.</b> Bolt the POM plate to the rivet nuts on the outer side face of boom B with M4 bolts; the long nylon bolt of spacer 3 also passes through the plate. Attach the mast to the plate with a U-bolt. <b>A metal mast must not be parallel to the elements</b>: if the elements are vertical, offset the mast by at least 30–40 cm with a horizontal plastic arm, or rotate the antenna by 90° and use horizontal polarization.</li>
+</ol>
+
+<h2 id="checks">Checks and measurement</h2>
+<ul>
+<li><b>Mechanical:</b> All elements must be perpendicular to the booms and in one plane. The gap must be the same everywhere. No screw may protrude into the gap, and no metal part may bridge the two booms at the front.</li>
+<li><b>Electrical (multimeter):</b>
+<ul><li>Before the plate is fitted, A–B must be open.</li>
+<li>After the plate is fitted, A–B must be a short circuit.</li>
+<li>Every rod must be shorted to its own boom and open to the other boom.</li>
+<li>At the connector, centre pin to body must be a short circuit.</li></ul></li>
+<li><b>RF (NanoVNA):</b> Calibrate at the end of the measurement cable and sweep 250–1100 MHz. Keep the front of the antenna clear, at least 2 m above the ground and away from metal. Compare the result with the S11 from CST.
+<ul><li>If the measured curve is above the simulation across the whole band (poorer match), first shorten the feed leads.</li>
+<li>If that is not enough, change the gap by 0.5 mm.</li>
+<li>If the match is poor only at the top end (900–1000 MHz), the feed point and the connection lengths at the front end are the likely cause.</li></ul></li>
+</ul>
+
+<h2 id="cst">CST model</h2>
+<p>The CST model (<code>cst/lpda.cst</code>) matches this guide: <code>d_el = 10</code>, elements 21–22 removed, <code>shortplate</code> moved to the top face (Xrange <code>-xA-a/2</code>…<code>xA+a/2</code>, Yrange <code>a/2</code>…<code>a/2+3</code>, Zrange <code>0</code>…<code>15</code>), gap = 7.5. Results are in <code>results/final_20el_d10</code>: <code>lpda_20el_d10.s1p</code>, the farfield tables and <code>performance_table_d10.csv</code>.</p>
+<p class="hint">The dimensions in this guide are taken from the lpda.cst parameters: τ = 0.90, σ = 0.13, L1 = 555.2 mm, a = 15, gap = 7.5, stub = 138.8, front = 20, feed_back = −5, with elements 21 and 22 removed and d_el = 10.</p>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const Z=[138.8,283.152,413.069,529.994,635.227,729.936,815.174,891.889,960.932,1023.071,1078.996,1129.328,1174.627,1215.397,1252.089,1285.112,1314.833,1341.582,1365.655,1387.322];
+const Hh=[270.1,242.34,217.356,194.87,174.633,156.42,140.028,125.275,111.998,100.048,89.293,79.614,70.902,63.062,56.006,49.655,43.94,38.796,34.166,30.0];
+const xA=11.25,BL=1407.32,R=5,SP=[69.4,348.1,682.6,1051.0,1268.6,1353.6];
+const f1=v=>v.toFixed(1);
+const ct=document.getElementById('cutlist');
+for(let i=0;i<20;i++){const n=i+1,odd=n%2===1,L=2*Hh[i]+15;
+ct.insertAdjacentHTML('beforeend',`<tr><td>${n}</td><td class="n">${f1(Z[i])}</td><td class="n">${f1(L)}</td><td class="n"><b>${f1(Hh[i])}</b></td><td class="n">2</td><td>${odd?'up':'down'}</td><td>${odd?'down':'up'}</td><td class="n">${Math.round(299792.458/(2*L))}</td></tr>`);}
+const sel=document.getElementById('els');
+for(const b of['A','B'])for(let n=1;n<=20;n++)sel.insertAdjacentHTML('beforeend',`<option value="${b}${n}">${b}${String(n).padStart(2,'0')} — z ${f1(Z[n-1])}</option>`);
+
+const view=document.getElementById('view'),info=document.getElementById('info');
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(view.clientWidth,view.clientHeight);view.appendChild(renderer.domElement);
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,view.clientWidth/view.clientHeight,1,30000);
+scene.add(new THREE.HemisphereLight(0xffffff,0x777777,0.95));
+const dl=new THREE.DirectionalLight(0xffffff,0.75);dl.position.set(600,900,-400);scene.add(dl);
+const dl2=new THREE.DirectionalLight(0xffffff,0.35);dl2.position.set(-500,300,1300);scene.add(dl2);
+const ctl=new THREE.OrbitControls(cam,renderer.domElement);ctl.enableDamping=true;
+const M={};function mat(n,c,met){M[n]=new THREE.MeshStandardMaterial({color:c,metalness:met??0.35,roughness:0.5,transparent:true,opacity:1});return M[n];}
+mat('boom',0x9c9a92);mat('rod',0xd3d1c7);mat('boltA',0x7F77DD,.2);mat('scrB',0xEF9F27,.2);mat('pom',0xF1EFE8,0);mat('nyl',0xE8E6DD,0);mat('plate',0x6f6e69);mat('coax',0xD85A30,0);mat('feed',0x1D9E75,.2);mat('mount',0xB4B2A9,0);
+const HC={big:0xD85A30,m45:0x7F77DD,m3:0xEF9F27,fx:0xE24B4A,rv:0x1D9E75,st:0x5F5E5A};
+const parts=[],holes=[];
+function add(geo,m,pos,info,ex,rot){const me=new THREE.Mesh(geo,m.clone?m:m);me.material=m;me.position.set(...pos);if(rot)me.rotation.set(...rot);me.userData={info,base:new THREE.Vector3(...pos),ex:new THREE.Vector3(...(ex||[0,0,0])),cat:m};scene.add(me);parts.push(me);return me;}
+const box=(m,x0,x1,y0,y1,z0,z1,info,ex)=>add(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),m,[(x0+x1)/2,(y0+y1)/2,(z0+z1)/2],info,ex);
+const cyY=(m,x,y0,y1,z,r,info,ex)=>add(new THREE.CylinderGeometry(r,r,Math.abs(y1-y0),24),m,[x,(y0+y1)/2,z],info,ex);
+const cyX=(m,x0,x1,y,z,r,info,ex)=>add(new THREE.CylinderGeometry(r,r,Math.abs(x1-x0),24),m,[(x0+x1)/2,y,z],info,ex,[0,0,Math.PI/2]);
+function hole(face,x,y,z,d,c,info){const g=new THREE.CylinderGeometry(d/2,d/2,0.8,28);const me=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:c,roughness:.6}));
+if(face==='x')me.rotation.z=Math.PI/2;me.position.set(x,y,z);me.visible=false;me.userData={info};scene.add(me);holes.push(me);}
+const I=(t,rows)=>({t,rows});
+
+const boomA=box(M.boom,xA-7.5,xA+7.5,-7.5,7.5,0,BL,I('Boom A (with coax)',[['Profile','15×15×1.5 mm aluminium square tube'],['Length','1407.3 mm'],['Position','x = +11.25 (axis), gap side x = +3.75'],['Inside','RG-316, in the upper outer corner'],['Element holes','20 × Ø4.5, top and bottom wall (D1)'],['Spacers','6 × Ø4.5 horizontal (D6)'],['Front end','Ø3.5 coax exit z 1395 (D7), M3 rivet nut z 1401 (D8)'],['Rear end','Ø3.2 plate bolt z 7.5 (D10), coax exits from the open end']]));
+const boomB=box(M.boom,-xA-7.5,-xA+7.5,-7.5,7.5,0,BL,I('Boom B',[['Profile','15×15×1.5 mm aluminium square tube'],['Length','1407.3 mm'],['Position','x = −11.25 (axis)'],['Element holes','20 × Ø4.5, top and bottom wall (D1)'],['Spacers','6 × Ø4.5 horizontal (D6)'],['Front end','M3 rivet nut z 1398 (D9)'],['Rear end','Ø3.2 plate bolt z 7.5 (D10)'],['Mounting','2 × M4 rivet nut z 660/705 (D11)']]));
+for(let i=0;i<20;i++){const n=i+1,z=Z[i],h=Hh[i],sA=n%2?1:-1,sB=-sA,nn=String(n).padStart(2,'0');
+cyY(M.rod,xA,sA*7.5,sA*(7.5+h),z,R,I(`Element A${nn}`,[['Rod','Ø10 solid aluminium'],['Cut length',f1(h)+' mm (= h)'],['Full element L',f1(2*h+15)+' mm (tip to tip)'],['z position',f1(z)+' mm'],['Direction',sA>0?'up from the top face of boom A':'down from the bottom face of boom A'],['End machining','Ø3.3 × 12 mm axial hole, M4 thread (D5)'],['Fastening','M4×25 bolt from the opposite face'],['Resonance','≈ '+Math.round(299792.458/(2*(2*h+15)))+' MHz']]),[0,sA*60,0]);
+cyY(M.boltA,xA,-sA*7.5,sA*17.5,z,2,I(`M4×25 bolt — A${nn}`,[['Bolt','M4×25 stainless + washer'],['Hole','Ø4.5, boom A top and bottom wall (D1)'],['Entry face',sA>0?'bottom face':'top face'],['Thread engagement','≈10 mm into the rod'],['z',f1(z)+' mm']]),[0,-sA*40,0]);
+cyY(M.boltA,xA,-sA*7.5,-sA*10.3,z,3.6,I(`M4 bolt head — A${nn}`,[['Head','M4 + washer, Ø~8'],['Face',sA>0?'bottom face':'top face'],['z',f1(z)+' mm']]),[0,-sA*40,0]);
+cyY(M.rod,-xA,sB*7.5,sB*(7.5+h),z,R,I(`Element B${nn}`,[['Rod','Ø10 solid aluminium'],['Cut length',f1(h)+' mm (= h)'],['Full element L',f1(2*h+15)+' mm (tip to tip)'],['z position',f1(z)+' mm'],['Direction',sB>0?'up from the top face of boom B':'down from the bottom face of boom B'],['End machining','Ø3.3 × 12 mm axial hole, M4 thread (D5)'],['Fastening','M4×25 bolt from the opposite face'],['Resonance','≈ '+Math.round(299792.458/(2*(2*h+15)))+' MHz']]),[0,sB*60,0]);
+cyY(M.boltA,-xA,-sB*7.5,sB*17.5,z,2,I(`M4×25 bolt — B${nn}`,[['Bolt','M4×25 stainless + washer'],['Hole','Ø4.5, boom B top and bottom wall (D1)'],['Entry face',sB>0?'bottom face':'top face'],['Thread engagement','≈10 mm into the rod'],['z',f1(z)+' mm']]),[0,-sB*40,0]);
+cyY(M.boltA,-xA,-sB*7.5,-sB*10.3,z,3.6,I(`M4 bolt head — B${nn}`,[['Head','M4 + washer, Ø~8'],['Face',sB>0?'bottom face':'top face'],['z',f1(z)+' mm']]),[0,-sB*40,0]);
+for(const s of[1,-1]){hole('y',xA,s*7.9,z,4.5,HC.m45,I(`Hole D1 — A${nn}`,[['Diameter','Ø4.5'],['Face',s>0?'Boom A top':'Boom A bottom'],['z',f1(z)+' mm, face centre'],['Note','both walls in one pass']]));
+hole('y',-xA,s*7.9,z,4.5,HC.m45,I(`Hole D1 — B${nn}`,[['Diameter','Ø4.5'],['Face',s>0?'Boom B top':'Boom B bottom'],['z',f1(z)+' mm, face centre'],['Note','both walls in one pass']]));}
+}
+SP.forEach((c,k)=>{box(M.pom,-3.75,3.75,-7.5,7.5,c-12.5,c+12.5,I(`Spacer ${k+1}`,[['Material','POM (Delrin)'],['Size','7.5 (x) × 15 (y) × 25 (z) mm'],['Centre z',f1(c)+' mm'],['Hole','Ø4.5 through the middle, along x'],['Note','thickness = gap; check with calipers']]),[0,0,0]);
+cyX(M.nyl,-xA-9.5,xA+9.5+(k===2?0:0),0,c,2,I(`Nylon bolt — spacer ${k+1}`,[['Bolt',k===2?'M4×60 nylon (also passes through the mounting plate)':'M4×45 nylon + nut + washer'],['Hole','Ø4.5, 4 walls of both booms + POM (D6)'],['z',f1(c)+' mm, mid-height']]),[0,40,0]);
+for(const s of[1,-1])hole('x',s*(xA+7.9),0,c,4.5,HC.m45,I(`Hole D6 — spacer ${k+1}`,[['Diameter','Ø4.5'],['Location','both booms + POM in one pass'],['z',f1(c)+' mm']]));});
+box(M.plate,-xA-7.5,xA+7.5,7.5,10.5,0,15,I('Shorting plate',[['Material','Aluminium 37.5×15×3 mm'],['Location','top faces of both booms, z = 0–15'],['Fastening','2 × M3×25 through-bolts, serrated washer + washer + nylon-insert nut'],['Hole','Ø3.2 in the plate and booms (D10), x = ±11.25, z = 7.5, spacing 22.5 mm'],['Function','shorts the two booms at the rear end (stub)'],['Note','contact surfaces must be bare metal']]),[0,40,0]);
+for(const s of[1,-1]){hole('y',s*xA,10.9,7.5,3.2,HC.m3,I('Hole D10 — plate bolt',[['Diameter','Ø3.2'],['Location',(s>0?'Boom A':'Boom B')+' top and bottom wall + plate'],['z','7.5 mm']]));cyY(M.scrB,s*xA,-10,13,7.5,1.5,I('M3×25 plate bolt',[['Bolt','M3×25 + serrated washer + washer + nylon-insert nut'],['Hole','Ø3.2, plate + both boom walls'],['Location',s>0?'Boom A':'Boom B'],['z','7.5 mm']]),[0,40,0]);}
+const cp=[[16,4.75,-160],[16,4.75,-60],[16,4.75,0],[16,4.75,700],[16,4.75,1380],[15.6,5.6,1391],[15.25,10,1395],[15.25,15,1396]].map(p=>new THREE.Vector3(...p));
+add(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(cp,false,'centripetal'),500,1.25,12,false),M.coax,[0,0,0],I('RG-316 coax',[['Cable','RG-316, Ø2.5, 50 Ω'],['Route','inside boom A, upper outer corner (x ≈ +16, y ≈ +4.75)'],['Rear','exits the open rear end, ~30 cm allowance, SMA/N connector'],['Front','exits through the Ø3.5 hole at z 1395 (D7)'],['Length','≈1.8 m'],['Loss','~1 dB/m @ 1 GHz'],['Note','bolts pass through the centre, the corner stays free']]),[0,0,0]);
+hole('y',15.25,7.9,1395,3.5,HC.fx,I('Hole D7 — coax exit',[['Diameter','Ø3.5'],['Location','Boom A top face'],['z','1395 mm'],['x','4 mm outward from the axis'],['Note','deburr well, a burr cuts the jacket']]));
+const lugA=add(new THREE.CylinderGeometry(3.5,3.5,1,24),M.feed,[11.25,8,1401],I('Shield lug → boom A',[['Lug','M3 ring, tinned'],['Connection','RG-316 braid soldered'],['Screw','M3×6, into the rivet nut (D8, Ø5.0)'],['z','1401 mm, boom A top face']]),[0,25,0]);
+const lugB=add(new THREE.CylinderGeometry(3.5,3.5,1,24),M.feed,[-11.25,8,1398],I('Centre-conductor lug → boom B',[['Lug','M3 ring, tinned'],['Connection','RG-316 centre conductor soldered'],['Screw','M3×6, into the rivet nut (D9, Ø5.0)'],['z','1398 mm, boom B top face'],['Note','conductor crosses over the gap, exposed end < 10 mm']]),[0,25,0]);
+hole('y',11.25,7.9,1401,5,HC.rv,I('Hole D8 — rivet nut',[['Diameter','Ø5.0 (M3 rivet nut)'],['Location','Boom A top'],['z','1401 mm']]));
+hole('y',-11.25,7.9,1398,5,HC.rv,I('Hole D9 — rivet nut',[['Diameter','Ø5.0 (M3 rivet nut)'],['Location','Boom B top'],['z','1398 mm']]));
+function wire(pts,r,info){add(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(...p))),40,r,8,false),M.feed,[0,0,0],info,[0,25,0]);}
+wire([[15.25,15,1396],[8,15,1397],[0,14,1397.5],[-8,10.5,1398],[-11.25,8.5,1398]],0.5,I('Centre conductor',[['Length','≈ 27 mm (exposed < 10 mm)'],['Connection','boom B lug'],['Note','keep the PTFE insulation up to the lug']]));
+wire([[15.25,15,1396.5],[14,12,1399],[12,8.5,1401]],0.9,I('Braid (shield)',[['Connection','boom A lug'],['Note','twist into a single lead, solder to the lug']]));
+box(M.mount,-xA-7.5-10,-xA-7.5,-30,30,645,720,I('Mounting plate',[['Material','POM/PVC 75×60×10 mm'],['Location','boom B outer side face, z 645–720'],['Fastening','2 × M4 rivet nut (D11, Ø6.0) z 660/705 + spacer 3 nylon bolt'],['Centre of gravity','z ≈ 720 mm'],['Mast','U-bolt; must not be parallel to the elements']]),[-40,0,0]);
+for(const z of[660,705])hole('x',-xA-7.9,0,z,6,HC.rv,I('Hole D11 — mounting rivet nut',[['Diameter','Ø6.0 (M4 rivet nut)'],['Location','boom B outer side face, mid-height'],['z',z+' mm']]));
+
+const V=[['Overview',[1500,420,150],[0,0,720]],['Rear end',[230,170,-190],[0,0,200]],['Boom A detail',[140,95,445],[11.25,-10,530]],['Boom B detail',[-140,70,335],[-11.25,-10,413]],['Feed',[80,110,1470],[0,6,1396]],['Mounting plate',[-260,120,560],[-20,0,690]],['Front section',[0,0,1700],[0,0,1300]]];
+const vb=document.getElementById('views');let tw=null;
+function fly(p,c){tw={p0:cam.position.clone(),c0:ctl.target.clone(),p1:new THREE.Vector3(...p),c1:new THREE.Vector3(...c),t0:performance.now()};}
+V.forEach(v=>{const b=document.createElement('button');b.textContent=v[0];b.onclick=()=>fly(v[1],v[2]);vb.appendChild(b);});
+cam.position.set(...V[0][1]);ctl.target.set(...V[0][2]);
+
+let trans=false,hmode=false,selM=null,selBox=null;
+function applyVis(){parts.forEach(p=>{const c=p.userData.cat;let vis=true;if(hmode&&c!==M.boom&&c!==M.pom&&c!==M.mount)vis=false;p.visible=vis;});
+M.boom.opacity=trans&&!hmode?0.28:1;M.boom.depthWrite=!(trans&&!hmode);holes.forEach(h=>h.visible=hmode);
+document.getElementById('hlegend').style.display=hmode?'flex':'none';}
+document.getElementById('tb').onclick=e=>{trans=!trans;e.target.classList.toggle('on',trans);applyVis();};
+document.getElementById('hm').onclick=e=>{hmode=!hmode;e.target.classList.toggle('on',hmode);applyVis();};
+document.getElementById('exp').oninput=e=>{const f=e.target.value/100;parts.forEach(p=>{p.position.copy(p.userData.base).addScaledVector(p.userData.ex,f);});};
+function show(me){if(selM)selM.material=selM.userData.orig||selM.material;if(selBox){scene.remove(selBox);selBox=null;}
+selM=me;const d=me.userData.info;
+me.userData.orig=me.material;me.material=me.material.clone();me.material.emissive=new THREE.Color(0x185FA5);me.material.emissiveIntensity=0.55;me.material.opacity=1;
+selBox=new THREE.BoxHelper(me,0x378ADD);scene.add(selBox);
+info.innerHTML=`<h4>${d.t}</h4><div class="kv">${d.rows.map(r=>`<div>${r[0]}</div><div>${r[1]}</div>`).join('')}</div>`;}
+sel.onchange=()=>{const v=sel.value;if(!v)return;const b=v[0],n=+v.slice(1),z=Z[n-1],h=Hh[n-1];
+const me=parts.find(p=>p.userData.info.t===`Element ${b}${String(n).padStart(2,'0')}`);if(me)show(me);
+const x=b==='A'?xA:-xA;fly([x+(b==='A'?1:-1)*(h*1.6+80),40,z-h*0.9-60],[x,0,z]);};
+const ray=new THREE.Raycaster(),mp=new THREE.Vector2();let down=null;
+renderer.domElement.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY];});
+renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5)return;
+const r=renderer.domElement.getBoundingClientRect();mp.x=((e.clientX-r.left)/r.width)*2-1;mp.y=-((e.clientY-r.top)/r.height)*2+1;ray.setFromCamera(mp,cam);
+const cand=(hmode?holes.concat(parts):parts).filter(o=>o.visible&&!(o.userData.cat===M.boom&&trans&&!hmode));
+let hit=ray.intersectObjects(cand,false);if(!hit.length&&trans)hit=ray.intersectObjects(parts.filter(o=>o.visible),false);
+if(hit.length)show(hit[0].object);});
+function loop(now){requestAnimationFrame(loop);if(tw){let k=Math.min(1,(now-tw.t0)/750);k=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;cam.position.lerpVectors(tw.p0,tw.p1,k);ctl.target.lerpVectors(tw.c0,tw.c1,k);if(k>=1)tw=null;}
+if(selBox)selBox.update();ctl.update();renderer.render(scene,cam);}
+requestAnimationFrame(loop);
+new ResizeObserver(()=>{renderer.setSize(view.clientWidth,view.clientHeight);cam.aspect=view.clientWidth/view.clientHeight;cam.updateProjectionMatrix();}).observe(view);
+</script>
+</body>
+</html>
